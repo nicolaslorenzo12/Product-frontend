@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductList from "./pages/Products";
 import Layout from "./pages/Layout";
 import Welcome from "./pages/Welcome";
-import SupermarketList from "./pages/Supermarkets";
+import Supermarkets from "./pages/Supermarkets";
+import SupermarketInfo from "./pages/SupermarketInfo";
 export default function App() {
   return (
     <BrowserRouter>
@@ -11,7 +12,8 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Welcome />} />
           <Route path="products" element={<ProductList/>} />
-          <Route path="supermarkets" element={<SupermarketList/>} />
+          <Route path="supermarkets" element={<Supermarkets/>} />
+          <Route path="productsofasupermarket/:supermarketId" element={<SupermarketInfo/>} />
         </Route>
       </Routes>
     </BrowserRouter>

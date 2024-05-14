@@ -5,7 +5,7 @@ const ProductList = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [products]);
 
   const fetchProducts = async () => {
     try {
