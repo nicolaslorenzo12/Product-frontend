@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 import '../style/style.css'
 
-const SupermarketList = ({ supermarkets }) => (
+const SupermarketList = ({ supermarkets, deleteSupermarket }) => (
   <div>
       <div>
         <h1>Supermarkets</h1>
@@ -23,7 +23,7 @@ const SupermarketList = ({ supermarkets }) => (
                     </Link>
                   </td>
                   <td>
-                    <button>Delete</button>
+                    <button onClick={() => deleteSupermarket(supermarket.id)} id={supermarket.id}>Delete</button>
                   </td>
                 </tr>
               ))}
@@ -36,7 +36,10 @@ const SupermarketList = ({ supermarkets }) => (
 
 async function fetchSupermarkets(setSupermarkets) {
   try {
-    const response = await fetch('https://localhost:7152/api/SuperMarket');
+    const response = await fetch('https://localhost:7152/api/SuperMarket',{
+      method: 'GET',
+    });
+
     if (!response.ok) {
       throw new Error('Failed to fetch supermarkets');
     }
@@ -45,6 +48,23 @@ async function fetchSupermarkets(setSupermarkets) {
   } catch (error) {
     console.error(error);
   }
+}
+
+async function deleteSupermarket(setSupermarkets, supermarketId){
+
+  try {
+    const response = await fetch(`https://localhost:7152/api/SuperMarket?supermarketId=${supermarketId}`,{
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to delete supermarkets');
+    }
+    setSupermarkets(prevSupermarkets => prevSupermarkets.filter(supermarket => supermarket.id !== supermarketId));
+  } catch (error) {
+    console.error(error);
+  }
+
 }
 
 const Supermarkets = () => {
@@ -56,9 +76,15 @@ const Supermarkets = () => {
     };
 
     fetchData();
-  }, [supermarkets]);
+  }, []);
 
-  return <SupermarketList supermarkets={supermarkets} />;
+    const deleteData = async (supermarketId) => {
+      await deleteSupermarket(setSupermarkets, supermarketId);
+    };
+
+  
+
+  return <SupermarketList supermarkets={supermarkets} deleteSupermarket={deleteData} />;
 };
 
 export default Supermarkets;
