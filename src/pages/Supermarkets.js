@@ -1,5 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
+import Error from './Error';
+
 import '../style/style.css'
 
 const SupermarketList = ({ supermarkets, deleteSupermarket }) => (
@@ -34,19 +36,20 @@ const SupermarketList = ({ supermarkets, deleteSupermarket }) => (
   </div>
 );
 
-async function fetchSupermarkets(setSupermarkets) {
+async function fetchSupermarkets(setSupermarkets, setRedirect) {
   try {
     const response = await fetch('https://localhost:7152/api/SuperMarket',{
       method: 'GET',
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch supermarkets');
+      setRedirect(true);
+      return;
     }
     const data = await response.json();
     setSupermarkets(data);
   } catch (error) {
-    console.error(error);
+    setRedirect(true);
   }
 }
 
@@ -69,22 +72,25 @@ async function deleteSupermarket(setSupermarkets, supermarketId){
 
 const Supermarkets = () => {
   const [supermarkets, setSupermarkets] = useState([]);
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchSupermarkets(setSupermarkets);
+      await fetchSupermarkets(setSupermarkets, setRedirect);
     };
 
     fetchData();
   }, []);
 
-    const deleteData = async (supermarketId) => {
-      await deleteSupermarket(setSupermarkets, supermarketId);
-    };
+  const deleteData = async (supermarketId) => {
+    await deleteSupermarket(setSupermarkets, supermarketId);
+  };
 
-  
-
-  return <SupermarketList supermarkets={supermarkets} deleteSupermarket={deleteData} />;
+  if (redirect) {
+    return <Error message={"There was an error fetching the supermarkets"} />;
+  }else{
+    return <SupermarketList supermarkets={supermarkets} deleteSupermarket={deleteData} />;
+  }
 };
 
 export default Supermarkets;
