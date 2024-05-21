@@ -1,9 +1,9 @@
 import React, { useState, useEffect} from 'react';
-import Error from './Error';
+import Error from '../ErrorPage/Error';
 import SupermarketList from "./SupermarketList"
-import '../style/style.css'
-import { fetchSupermarkets } from './FetchSupermarkets';
-import { deleteSupermarket } from './DeleteSupermarket';
+import '../../style/style.css'
+import { fetchSupermarkets } from './api/FetchSupermarkets';
+import { deleteSupermarket } from './api/DeleteSupermarket';
 
 const Supermarkets = () => {
   const [supermarkets, setSupermarkets] = useState([]);
@@ -23,7 +23,8 @@ const Supermarkets = () => {
   }, []);
 
   const deleteData = async (supermarketId) => {
-    await deleteSupermarket(setSupermarkets, supermarketId);
+    await deleteSupermarket(supermarketId);
+    setSupermarkets(prevSupermarkets => prevSupermarkets.filter(supermarket => supermarket.id !== supermarketId));
   };
 
   if (!errorFetchingSupermarkets) {

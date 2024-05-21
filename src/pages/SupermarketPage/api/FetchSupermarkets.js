@@ -1,9 +1,11 @@
+import config from "../../../config";
+
 export async function fetchSupermarkets() {
     let dataWasNotCorrectlyFetched = true;
     let fetchedData = null;
 
     try {
-      const response = await fetch('https://localhost:7152/api/SuperMarket',{
+      const response = await fetch(`${config.apiBaseUrl}/SuperMarket`,{
         method: 'GET',
       });
   

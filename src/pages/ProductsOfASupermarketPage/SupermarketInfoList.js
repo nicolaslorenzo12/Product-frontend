@@ -2,7 +2,6 @@ import { React, useEffect, useState } from "react";
 
 const SupermarketInfoList = ({ supermarketProducts, supermarketName, updatePrice }) => {
   const [prices, setPrices] = useState({});
-  console.log(prices)
   
 
   useEffect(() => {

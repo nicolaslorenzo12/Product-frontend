@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ProductList from "./pages/Products";
+import ProductList from "./pages/ProductsPage/Products";
 import Layout from "./pages/Layout";
-import Welcome from "./pages/Welcome";
-import Supermarkets from "./pages/Supermarkets";
-import SupermarketInfo from "./pages/SupermarketInfo";
-import Error from "./pages/Error";
+import Welcome from "./pages/WelcomePage/Welcome";
+import Supermarkets from "./pages/SupermarketPage/Supermarkets";
+import SupermarketInfo from "./pages/ProductsOfASupermarketPage/SupermarketInfo";
+import Error from "./pages/ErrorPage/Error";
 
 const App = () => {
     return (
